@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import Atlas.Controller.FlightController;
+import Atlas.Controller.MarkerController;
 import Atlas.Util.ConnectionUtil;
 
 /**
@@ -22,8 +22,8 @@ public class Application {
      */
     public static void main(String[] args) {
         databaseSetup();
-        FlightController flightController = new FlightController();
-        Javalin app = flightController.startAPI();
+        MarkerController markerController = new MarkerController();
+        Javalin app = markerController.startAPI();
         app.start(8080);
     }
     /**
