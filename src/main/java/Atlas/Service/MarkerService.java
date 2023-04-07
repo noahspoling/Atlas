@@ -78,7 +78,7 @@ public class MarkerService {
     }
 
     /**
-     * TODO: Retrieves a list of marker objects in the table marker
+     * Retrieves a list of marker objects in the table marker
      * 
      * @return List of marker instances in database
      */

@@ -1,7 +1,7 @@
 package Atlas.DAO;
 
 import java.sql.*;
-import java.util.Date;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,6 @@ public class MarkerDAO {
         try {
             //Get all markers from table marker
             String sql = "SELECT * FROM marker;";
-
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while(rs.next()){
@@ -30,7 +29,6 @@ public class MarkerDAO {
                     rs.getDate("createdAt"), rs.getDate("updatedAt"),
                     rs.getDouble("latitude"), rs.getDouble("longitude"));
                 markers.add(marker);
-                System.out.println(marker);
             }
         } catch (SQLException e){
             System.out.println(e.getMessage());
@@ -75,11 +73,11 @@ public class MarkerDAO {
         try {
             String sql = "INSERT INTO marker (label, description, createdAt, updatedAt, latitude, longitude) VALUES (?, ?, ?, ?, ?, ?);";
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
+            long time = System.currentTimeMillis();
             ps.setString(1, marker.getMarkerName());
             ps.setString(2, marker.getMarkerDescription());
-            ps.setDate(3, (java.sql.Date) new Date());
-            ps.setDate(4, (java.sql.Date) new Date());
+            ps.setDate(3, new Date(time));
+            ps.setDate(4, new Date(time));
             ps.setDouble(5, marker.getLatitude());
             ps.setDouble(6, marker.getLongitude());
 
@@ -107,9 +105,10 @@ public class MarkerDAO {
         try {
             String sql = "UPDATE marker SET label = ?, description = ?, updatedAt = ?, latitude = ?, longitude = ? WHERE marker_id = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
+            long time = System.currentTimeMillis();
             ps.setString(1, marker.getMarkerName());
             ps.setString(2, marker.getMarkerDescription());
-            ps.setDate(3, (java.sql.Date) new Date());
+            ps.setDate(3, new Date(time));
             ps.setDouble(4, marker.getLatitude());
             ps.setDouble(5, marker.getLongitude());
             ps.setInt(6, id);

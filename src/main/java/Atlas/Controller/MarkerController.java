@@ -19,10 +19,10 @@ public class MarkerController {
     public Javalin startAPI(){
         Javalin app = Javalin.create();
         app.post("/markers", this::postMarkerHandler);
-        app.put("/markers/{flight_id}", this::updateMarkerHandler);
+        app.put("/markers/{marker_id}", this::updateMarkerHandler);
         app.get("/markers", this::getAllMarkersHandler);
         app.get("/markers/{marker_id}", this::getMarkerHandler);
-        app.delete("/markers/{markers_id}", this::deleteMarkerHandler);
+        app.delete("/markers/{marker_id}", this::deleteMarkerHandler);
         
         return app;
     }
@@ -37,12 +37,19 @@ public class MarkerController {
         ctx.json(markerService.getAllMarkers());
     };
     /**
-     * REQUIRES WORK
-     * @param ctx
+     * Gets the id from the path param and returns the object from the database.
+     * 
+     * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
+     *            be available to this method automatically thanks to the app.put method.
      */
     private void getMarkerHandler(Context ctx){
-        System.out.println(ctx.body());
-        ctx.json(markerService.getMarker(0));
+        int id = Integer.parseInt(ctx.pathParam("marker_id"));
+        Marker marker = markerService.getMarker(id);
+        if (marker != null) {
+            ctx.json(marker);
+        } else {
+            ctx.status(400).result("Marker not found");
+        }
     }
 
     /**
@@ -90,25 +97,22 @@ public class MarkerController {
 
     }
     /**
-     * Handler for deleting a marker from the database
+     * Handler for deleting a marker from the database gets marker from REST argument marker_id to get marker object
      * @param ctx the context object handles information HTTP requests and generates responses within Javalin. It will
      *            be available to this method automatically thanks to the app.put method.
-     * @throws JsonMappingException
-     * @throws JsonProcessingException
+     * @return void
      */
-    private void deleteMarkerHandler(Context ctx) throws JsonMappingException, JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        Marker marker = mapper.readValue(ctx.body(), Marker.class);
-        int marker_id = Integer.parseInt(ctx.pathParam("marker_id"));
-        Marker deleted_marker = markerService.getMarker(marker_id);
-        int delete_service_response = markerService.deleteMarker(marker_id);
-        System.out.println(delete_service_response);
-        if(delete_service_response == -1 || delete_service_response == 0) {
-            ctx.status(400);
+    private void deleteMarkerHandler(Context ctx){
+        int id = Integer.parseInt(ctx.pathParam("marker_id"));
+        Marker marker = markerService.getMarker(id);
+
+        // delete marker service does return and int between -1 and 1 however this might be better handled here.
+        if (marker != null) {
+            markerService.deleteMarker(id);
+        } else {
+            ctx.status(400).result("Marker not found");
         }
-        else {
-            ctx.json(mapper.writeValueAsString(deleted_marker));
-        }
+        
     }
 
 
