@@ -164,4 +164,17 @@ public class Marker {
     public void setLongitude(double longitude){
         this.longitude = longitude;
     }
+
+    @Override
+    public String toString() {
+        return "Marker{" +
+                "marker_id='" + this.markerId + '\'' +
+                ", label='" + this.markerName + '\'' +
+                ", description='" + this.markerDescription + '\'' +
+                ", createdAt='" + this.createdAt + '\'' +
+                ", updatedAt='" + this.updatedAt + '\'' +
+                ", latitude='" + this.latitude + '\'' +
+                ", longitude='" + this.longitude + '\'' +
+                '}';
+    }
 }
