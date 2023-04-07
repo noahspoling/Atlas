@@ -48,7 +48,7 @@ public class Marker {
 
     }
     /**
-     * TODO Returns an marker instance without an id for adding new markers
+     * Returns an marker instance without an id for adding new markers
      * 
      * @param markerId
      * @param markerName
@@ -57,6 +57,8 @@ public class Marker {
      * @param updatedAt
      * @param latitude
      * @param longitude
+     * 
+     * @return instance of class Marker
      */
     public Marker(int markerId, String markerName, String markerDescription,
         double latitude, double longitude) {

@@ -30,6 +30,7 @@ public class MarkerDAO {
                     rs.getDate("createdAt"), rs.getDate("updatedAt"),
                     rs.getDouble("latitude"), rs.getDouble("longitude"));
                 markers.add(marker);
+                System.out.println(marker);
             }
         } catch (SQLException e){
             System.out.println(e.getMessage());

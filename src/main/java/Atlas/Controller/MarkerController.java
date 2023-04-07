@@ -24,7 +24,7 @@ public class MarkerController {
         app.get("/markers/{marker_id}", this::getMarkerHandler);
         app.delete("/markers/{markers_id}", this::deleteMarkerHandler);
         
-        return null;
+        return app;
     }
     /**
      * 
@@ -32,6 +32,8 @@ public class MarkerController {
      *            be available to this method automatically thanks to the app.put method.
      */
     private void getAllMarkersHandler(Context ctx){
+        System.out.println("This is a test");
+        System.out.println(ctx);
         ctx.json(markerService.getAllMarkers());
     };
     /**

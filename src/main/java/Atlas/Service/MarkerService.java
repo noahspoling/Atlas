@@ -14,7 +14,7 @@ public class MarkerService {
      */
 
     public MarkerService(){
-
+        this.markerDAO = new MarkerDAO();
     }
 
     /**
@@ -83,7 +83,7 @@ public class MarkerService {
      * @return List of marker instances in database
      */
 
-    public List<Marker> getAllMarkers() {
+    public List<Marker> getAllMarkers()  {
         return this.markerDAO.getAllMarkers();
     }
 
