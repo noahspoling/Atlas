@@ -170,7 +170,7 @@ public class Marker {
     @Override
     public String toString() {
         return "Marker{" +
-                "marker_id='" + this.markerId + '\'' +
+                "markerId='" + this.markerId + '\'' +
                 ", label='" + this.markerName + '\'' +
                 ", description='" + this.markerDescription + '\'' +
                 ", createdAt='" + this.createdAt + '\'' +

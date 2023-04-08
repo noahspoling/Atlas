@@ -57,5 +57,12 @@
             <artifactId>mockito-core</artifactId>
             <version>4.9.0</version>
         </dependency>
+
+        <!-- For enforced HTTPS when using basic auth -->
+        <dependency>
+            <groupId>io.javalin.community.ssl</groupId>
+            <artifactId>ssl-plugin</artifactId>
+            <version>5.4.2</version>
+        </dependency>
     </dependencies>
 </project>

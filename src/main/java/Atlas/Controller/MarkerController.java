@@ -7,7 +7,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Atlas.Model.Marker;
 import Atlas.Service.MarkerService;
 import io.javalin.Javalin;
+import io.javalin.community.ssl.SSLPlugin;
+import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
+import io.javalin.plugin.bundled.CorsPlugin;
 
 public class MarkerController {
     MarkerService markerService;
@@ -16,8 +19,33 @@ public class MarkerController {
         markerService = new MarkerService();
     }
 
+    /**
+     * Starts api service
+     * @return instance from the static Javalin create method.
+     */
     public Javalin startAPI(){
-        Javalin app = Javalin.create();
+        /*
+         * SSLPlugin plugin = new SSLPlugin(conf -> {
+            conf.pemFromClasspath("certs/cert.pem", "certs/key.pem");
+        });
+         */
+        
+
+        Javalin app = Javalin.create(config -> {
+            config.plugins.enableCors(cors -> {
+                cors.add(it -> {
+                    it.anyHost();
+                });
+            });
+        });
+        //arrow function to check authentication before on route.
+        /*
+        app.before("/markers/", ctx -> {
+            String token = ctx.header("Authorization");
+        });
+        */
+
+        
         app.post("/markers", this::postMarkerHandler);
         app.put("/markers/{marker_id}", this::updateMarkerHandler);
         app.get("/markers", this::getAllMarkersHandler);
@@ -32,8 +60,6 @@ public class MarkerController {
      *            be available to this method automatically thanks to the app.put method.
      */
     private void getAllMarkersHandler(Context ctx){
-        System.out.println("This is a test");
-        System.out.println(ctx);
         ctx.json(markerService.getAllMarkers());
     };
     /**
@@ -72,8 +98,6 @@ public class MarkerController {
         } else {
             ctx.json(mapper.writeValueAsString(addedMarker));
         }
-
-
     }
     /**
      * 
@@ -114,6 +138,4 @@ public class MarkerController {
         }
         
     }
-
-
 }
