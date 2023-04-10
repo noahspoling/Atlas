@@ -142,7 +142,6 @@ public class MarkerDAO {
                 return 0;
             }
             return 1;
-
         }
         catch (SQLException e) {
             System.out.println(e.getMessage());

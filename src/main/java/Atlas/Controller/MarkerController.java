@@ -12,47 +12,34 @@ import io.javalin.config.JavalinConfig;
 import io.javalin.http.Context;
 import io.javalin.plugin.bundled.CorsPlugin;
 
+interface MarkerCRUD {
+    
+}
+/**
+ * Singleton class of the marker controller to add routes to base controller in static method
+ * @param app
+ */
 public class MarkerController {
-    MarkerService markerService;
+    private MarkerService markerService;
+    private static MarkerController instance = null;
 
     public MarkerController(){
         markerService = new MarkerService();
     }
 
-    /**
-     * Starts api service
-     * @return instance from the static Javalin create method.
-     */
-    public Javalin startAPI(){
-        /*
-         * SSLPlugin plugin = new SSLPlugin(conf -> {
-            conf.pemFromClasspath("certs/cert.pem", "certs/key.pem");
-        });
-         */
-        
+    public static MarkerController getInstance() {
+        if (instance == null) {
+            instance = new MarkerController();
+        }
+        return instance;
+    }
 
-        Javalin app = Javalin.create(config -> {
-            config.plugins.enableCors(cors -> {
-                cors.add(it -> {
-                    it.anyHost();
-                });
-            });
-        });
-        //arrow function to check authentication before on route.
-        /*
-        app.before("/markers/", ctx -> {
-            String token = ctx.header("Authorization");
-        });
-        */
-
-        
+    public void addRoutes(Javalin app) {
         app.post("/markers", this::postMarkerHandler);
         app.put("/markers/{marker_id}", this::updateMarkerHandler);
         app.get("/markers", this::getAllMarkersHandler);
         app.get("/markers/{marker_id}", this::getMarkerHandler);
         app.delete("/markers/{marker_id}", this::deleteMarkerHandler);
-        
-        return app;
     }
     /**
      * 
